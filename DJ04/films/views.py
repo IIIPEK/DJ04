@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Films
 from .forms import FilmsForm
 
@@ -10,7 +10,7 @@ def films_index(request):
     context={
         'page_title': 'Фильмы',
         'page_description': 'Описание всех фильмов.',
-        'posts': Films.objects.all(),
+        'films': Films.objects.all(),
     }
     return render(request, 'films/index.html', context)
 
@@ -27,11 +27,20 @@ def film_detail(request, film_id):
 
 def add_film(request):
     error = None
+
+
     if request.method == 'POST':
-        form = FilmsForm(request.POST)  # Сюда сохранится информация от пользователя.
+        form = FilmsForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('films_index')
         else:
-            error = "Данные были заполнены некорректно"
+            error = "Проверьте данные"
     form = FilmsForm()
-    return render(request, 'films/add_film.html', {'form': form, 'error': error})
+    context = {
+        'page_title': 'Добавление нового фильма',
+        'page_description': 'Добавьте новый фильм и его описание. Не забудьте оценить его.',
+        'form': form,
+        'error': error,
+    }
+    return render(request, 'films/add_film.html', context=context)

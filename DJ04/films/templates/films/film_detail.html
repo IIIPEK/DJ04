@@ -8,7 +8,7 @@
   <nav aria-label="breadcrumb" class="mb-4">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'news_index' %}">Новости</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'films_index' %}">Новости</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ film.title }}</li>
     </ol>
   </nav>
@@ -28,10 +28,6 @@
             <div class="rounded-circle bg-secondary bg-opacity-25 me-2 d-flex align-items-center justify-content-center"
                  style="width: 40px; height: 40px;">
               <i class="bi bi-person text-secondary" style="font-size: 1.5rem;"></i>
-            </div>
-            <div>
-              <div class="fw-bold">{{ film.author.get_full_name|default:film.author.username }}</div>
-              <div class="text-muted small">Автор</div>
             </div>
           </div>
           <p class="lead">{{ film.description }}</p>
@@ -68,7 +64,7 @@
 
     <div class="col-lg-4">
       <div class="card mb-4 shadow-sm">
-        <div class="card-header">Другие новости</div>
+        <div class="card-header">Другие фильмы</div>
         <div class="list-group list-group-flush">
           {% for related_film in films|slice:":5" %}
             {% if related_film.id != film.id %}
